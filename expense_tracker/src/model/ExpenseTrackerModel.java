@@ -1,14 +1,15 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ExpenseTrackerModel {
 
-  public List<Transaction> transactions;
+  private List<Transaction> transactions;
 
   public ExpenseTrackerModel() {
-    transactions = new ArrayList<>(); 
+    transactions = new ArrayList<>();
   }
 
   public void addTransaction(Transaction t) {
@@ -20,7 +21,7 @@ public class ExpenseTrackerModel {
   }
 
   public List<Transaction> getTransactions() {
-    return transactions;
+    return Collections.unmodifiableList(transactions);
   }
 
 }

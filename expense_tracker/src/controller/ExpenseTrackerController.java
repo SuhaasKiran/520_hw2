@@ -12,6 +12,7 @@ public class ExpenseTrackerController {
   
   private ExpenseTrackerModel model;
   private ExpenseTrackerView view;
+  private TransactionFilter transactionFilter;
 
   public ExpenseTrackerController(ExpenseTrackerModel model, ExpenseTrackerView view) {
     this.model = model;
@@ -19,6 +20,8 @@ public class ExpenseTrackerController {
 
     // Set up view event handlers
   }
+
+
 
   public void refresh() {
 
@@ -28,6 +31,21 @@ public class ExpenseTrackerController {
     // Pass to view
     view.refreshTable(transactions);
 
+  }
+
+  public void highlightFilters(List<Transaction> transactions) {
+
+    // Pass to view
+
+    view.highlightTable(transactions);
+
+  }
+
+  public void clearFilters() {
+    view.setFilterValueField();
+    List<Transaction> transactions = model.getTransactions();
+    view.deHighlightTable(transactions);
+    refresh();
   }
 
   public boolean addTransaction(double amount, String category) {
@@ -42,6 +60,22 @@ public class ExpenseTrackerController {
     model.addTransaction(t);
     view.getTableModel().addRow(new Object[]{t.getAmount(), t.getCategory(), t.getTimestamp()});
     refresh();
+    return true;
+  }
+
+  public void setStrategy(TransactionFilter transactionFilter) {
+    this.transactionFilter = transactionFilter;
+  }
+
+  public boolean applyFilter() {
+    List<Transaction> transactions = model.getTransactions();
+
+    if(!transactionFilter.inputValidation()) {
+      return false;
+    }
+
+    List<Transaction> filteredTransactions = transactionFilter.filter(transactions);
+    highlightFilters(filteredTransactions);
     return true;
   }
   
