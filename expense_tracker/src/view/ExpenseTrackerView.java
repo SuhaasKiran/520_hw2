@@ -30,7 +30,7 @@ public class ExpenseTrackerView extends JFrame {
 
   private DefaultTableModel model;
   
-  private JComboBox filterList;
+  private JComboBox<String> filterList;
 
   public ExpenseTrackerView() {
     setTitle("Expense Tracker"); // Set title
@@ -71,7 +71,7 @@ public class ExpenseTrackerView extends JFrame {
     String[] filterTypeStrings = { "Amount", "Category"};
 
     //Create the drop down using combo box
-    filterList = new JComboBox(filterTypeStrings);
+    filterList = new JComboBox<String>(filterTypeStrings);
     filterList.setSelectedIndex(1);
 
     JLabel filterValueLabel = new JLabel("Filter Value");
